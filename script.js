@@ -11,6 +11,7 @@ let tileWidth = canvasWidth/gridWidth
 
 //variable id to hold the time interval
 let conwayTimeInterval
+let isrunning = false
 
 function setup() {
     const canvas = document.createElement('canvas')
@@ -29,13 +30,25 @@ function setup() {
     drawPopulationGrid()
 
     document.querySelector('#start').addEventListener('click', beginTime)
+    document.querySelector('#start').addEventListener('click', () => setEnabledSettings(false))
     document.querySelector('#stop').addEventListener('click', stopTime)
+    document.querySelector('#stop').addEventListener('click', () => setEnabledSettings(true))
     document.querySelector('#reset').addEventListener('click', reset)
+    document.querySelector('#reset').addEventListener('click', () => setEnabledSettings(true))
     
     canvas.addEventListener('click', flipTile)
 
-
     
+}
+
+/**Enable/disable all setting buttons.
+ * 
+ * @param {boolean} setEnabled -- true to enable all setting buttons, false to disable them
+ */
+function setEnabledSettings(setEnabled) {
+    const settingButtons = document.querySelectorAll('.setting-button')
+    console.log(settingButtons)
+    settingButtons.forEach(button => button.disabled = setEnabled ? false : true)
 }
 
 /**
@@ -122,10 +135,10 @@ function drawPopulationGrid() {
 /**
  * fills the cell based on the living state of the cell.
  * 
- * @param {*} xPos --the x position in pixels relative to the start left edge of canvas
- * @param {*} yPos --the y position in pixels relative to the start top edge of canvas
- * @param {*} rowIndex --the data array's row index 
- * @param {*} colIndex --the data array's column index 
+ * @param {number} xPos --the x position in pixels relative to the start left edge of canvas
+ * @param {number} yPos --the y position in pixels relative to the start top edge of canvas
+ * @param {number} rowIndex --the data array's row index 
+ * @param {number} colIndex --the data array's column index 
  */
 function fillCell(xPos, yPos, rowIndex, colIndex) {
     const canvas = document.querySelector('.conway-grid')

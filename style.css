@@ -4,12 +4,17 @@ html, body {
 
 header h1 {
     text-align: center;
+    font-size: 400%;
 }
 
 h1, h2 {
     color: rgb(255, 208, 0);
 }
 
+p {
+    color: rgb(188, 145, 212);
+    font-size: 120%;
+}
 .flex-container {
     display: flex;
     flex-direction: row;
@@ -32,4 +37,9 @@ button {
     background-color: rgb(53, 76, 128);
     color: rgb(255, 208, 0);
     padding: 1em 5em;
+}
+
+button:disabled{
+    background-color: rgb(71, 71, 71);
+    color: rgb(173, 173, 173);
 }
