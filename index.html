@@ -28,16 +28,22 @@
             </button>
         </section>
         <div class='flex-container'>
-            <section id="conway-grid-section">
+            <section id="conway-grid-section" class="flex-item">
                 
             </section>
-            <section id="setting-panel">
-                <button id="dimension-setting" class="setting-button">
-                    Set dimension size
-                </button>
-                <button id="speed-setting" class="setting-button">
-                    Set simulation speed
-                </button>
+            <section id="setting-panel" class="flex-item">
+                <div>
+                    <input type="range" min="10" max="100" id="grid-dimension-slider">
+                    <button id="dimension-setting" class="setting-button">
+                        Set dimensions: 
+                    </button>
+                </div>
+                <div>
+                    <button id="speed-setting" class="setting-button">
+                        Set simulation speed
+                    </button>
+                </div>
+
                 <p id="changed-paragraph">this is a paragraph.</p>
 
             </section>

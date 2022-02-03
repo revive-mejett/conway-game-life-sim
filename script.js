@@ -11,30 +11,33 @@ let tileWidth = canvasWidth/gridWidth
 
 //variable id to hold the time interval
 let conwayTimeInterval
+
 let isrunning = false
 
 function setup() {
     const canvas = document.createElement('canvas')
+    const dimensionSlider = document.querySelector('#grid-dimension-slider')
 
     canvas.setAttribute('class', 'conway-grid')
     canvas.setAttribute('height', `1000px`)
     canvas.setAttribute('width', `1000px`)
 
     let ctx = canvas.getContext('2d')
-
+    document.querySelector('#conway-grid-section').appendChild(canvas)
 
 
     //intialize the array with dimensions gridwidth x gridwidth
     initializeConwayData()
-    document.querySelector('#conway-grid-section').appendChild(canvas)
     drawPopulationGrid()
 
+    //event listners
     document.querySelector('#start').addEventListener('click', beginTime)
     document.querySelector('#start').addEventListener('click', () => setEnabledSettings(false))
     document.querySelector('#stop').addEventListener('click', stopTime)
     document.querySelector('#stop').addEventListener('click', () => setEnabledSettings(true))
     document.querySelector('#reset').addEventListener('click', reset)
     document.querySelector('#reset').addEventListener('click', () => setEnabledSettings(true))
+    dimensionSlider.addEventListener('change', () => document.querySelector('#dimension-setting').textContent = `Set dimensions: ${dimensionSlider.value}x${dimensionSlider.value}`)
     
     canvas.addEventListener('click', flipTile)
 
