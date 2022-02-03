@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', setup)
 //the array which will hold info on the conways game of life
 //first index represents the row (clicked Y) second index represents the column (clicked X)
 let conwayDataArray
-const gridWidth = 50
+let gridWidth = 50
 const canvasWidth = 1000
-let tileWidth = canvasWidth/gridWidth
+let tileWidth
 
 //variable id to hold the time interval
 let conwayTimeInterval
@@ -27,23 +27,33 @@ function setup() {
 
 
     //intialize the array with dimensions gridwidth x gridwidth
-    initializeConwayData()
-    drawPopulationGrid()
+    setupGrid()
 
-    //event listners
+    //event listeners
     document.querySelector('#start').addEventListener('click', beginTime)
     document.querySelector('#start').addEventListener('click', () => setEnabledSettings(false))
     document.querySelector('#stop').addEventListener('click', stopTime)
-    document.querySelector('#stop').addEventListener('click', () => setEnabledSettings(true))
+    document.querySelector('#stop').addEventListener('click', () => setEnabledSettings(false))
     document.querySelector('#reset').addEventListener('click', reset)
     document.querySelector('#reset').addEventListener('click', () => setEnabledSettings(true))
     dimensionSlider.addEventListener('change', () => document.querySelector('#dimension-setting').textContent = `Set dimensions: ${dimensionSlider.value}x${dimensionSlider.value}`)
+
+
+    //setting button event listeners
+    document.querySelector('#dimension-setting').addEventListener('click', setupGrid)
     
     canvas.addEventListener('click', flipTile)
 
     
 }
 
+function setupGrid() {
+    const dimensionSlider = document.querySelector('#grid-dimension-slider')
+    gridWidth = dimensionSlider.value
+    tileWidth = canvasWidth/gridWidth
+    initializeConwayData()
+    drawPopulationGrid()
+}
 /**Enable/disable all setting buttons.
  * 
  * @param {boolean} setEnabled -- true to enable all setting buttons, false to disable them
@@ -85,8 +95,7 @@ function reset() {
     if (conwayTimeInterval) {
         conwayTimeInterval = clearInterval(conwayTimeInterval)
     }
-    initializeConwayData()
-    drawPopulationGrid()
+    setupGrid()
 }
 
 /**
