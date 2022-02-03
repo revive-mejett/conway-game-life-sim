@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', setup)
 //the array which will hold info on the conways game of life
 //first index represents the row (clicked Y) second index represents the column (clicked X)
 let conwayDataArray
-let gridWidth = 50
+
+let gridDimensions
 const canvasWidth = 1000
 let tileWidth
 
 //variable id to hold the time interval
 let conwayTimeInterval
-
 let isrunning = false
 
 function setup() {
@@ -25,8 +25,7 @@ function setup() {
     let ctx = canvas.getContext('2d')
     document.querySelector('#conway-grid-section').appendChild(canvas)
 
-
-    //intialize the array with dimensions gridwidth x gridwidth
+    //set up the grid
     setupGrid()
 
     //event listeners
@@ -41,19 +40,20 @@ function setup() {
 
     //setting button event listeners
     document.querySelector('#dimension-setting').addEventListener('click', setupGrid)
-    
     canvas.addEventListener('click', flipTile)
+    
 
     
 }
 
 function setupGrid() {
     const dimensionSlider = document.querySelector('#grid-dimension-slider')
-    gridWidth = dimensionSlider.value
-    tileWidth = canvasWidth/gridWidth
+    gridDimensions = dimensionSlider.value
+    tileWidth = canvasWidth/gridDimensions
     initializeConwayData()
     drawPopulationGrid()
 }
+
 /**Enable/disable all setting buttons.
  * 
  * @param {boolean} setEnabled -- true to enable all setting buttons, false to disable them
@@ -95,7 +95,8 @@ function reset() {
     if (conwayTimeInterval) {
         conwayTimeInterval = clearInterval(conwayTimeInterval)
     }
-    setupGrid()
+    initializeConwayData()
+    drawPopulationGrid()
 }
 
 /**
@@ -251,9 +252,9 @@ function countAliveNeighbours(tileXPos, tileYPos) {
  */
 function initializeConwayData() {
     conwayDataArray = []
-    for (let i = 0; i < gridWidth; i++) {
+    for (let i = 0; i < gridDimensions; i++) {
         let newRowArray = []
-        for (let j = 0; j < gridWidth; j++) {
+        for (let j = 0; j < gridDimensions; j++) {
             newRowArray.push(false)
         }
         conwayDataArray.push(newRowArray)
