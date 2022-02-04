@@ -60,8 +60,9 @@ function setupGrid() {
  */
 function setEnabledSettings(setEnabled) {
     const settingButtons = document.querySelectorAll('.setting-button')
-    console.log(settingButtons)
+    const sliders = document.querySelectorAll('.input-slider')
     settingButtons.forEach(button => button.disabled = setEnabled ? false : true)
+    sliders.forEach(button => button.disabled = setEnabled ? false : true)
 }
 
 /**

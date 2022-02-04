@@ -75,7 +75,7 @@ input {
     margin: 3em 0 3em 0;
 }
 /* input slider styles */
-#grid-dimension-slider {
+.input-slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
@@ -85,8 +85,15 @@ input {
     background-color: black;
     cursor: pointer;
 }
+.input-slider:disabled {
 
-#grid-dimension-slider::-webkit-slider-thumb {
+
+    border: 1px solid rgb(173, 173, 173);
+    background-color: rgb(36, 36, 36);
+    cursor: pointer;
+}
+
+.input-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     /* width: 100%; */
@@ -94,6 +101,9 @@ input {
     width: 30px;
     background-color: rgb(53, 76, 128);
     border: 1px solid rgb(103, 158, 209);
-    
-    
+}
+
+.input-slider:disabled::-webkit-slider-thumb {
+    background-color: rgb(173, 173, 173);
+    border: 1px solid white;
 }
