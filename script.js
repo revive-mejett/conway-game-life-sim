@@ -160,11 +160,12 @@ function fillCell(xPos, yPos, rowIndex, colIndex) {
     ctx.beginPath()
     
     //fill the outermost tiles blue as a border to the canvas
-    if (rowIndex < 3 || colIndex < 3 || rowIndex >= conwayDataArray.length - 3 || colIndex >= conwayDataArray[rowIndex].length - 3) {
-        ctx.fillStyle = 'rgb(0,0,50)'
-    } else {
-        ctx.fillStyle = conwayDataArray[rowIndex][colIndex] ? 'rgb(200,200,200)' : 'rgb(0,0,0)'
-    }
+    // if (rowIndex < 3 || colIndex < 3 || rowIndex >= conwayDataArray.length - 3 || colIndex >= conwayDataArray[rowIndex].length - 3) {
+    //     ctx.fillStyle = 'rgb(0,0,50)'
+    // } else {
+    //     ctx.fillStyle = conwayDataArray[rowIndex][colIndex] ? 'rgb(200,200,200)' : 'rgb(0,0,0)'
+    // }
+    ctx.fillStyle = conwayDataArray[rowIndex][colIndex] ? 'rgb(200,200,200)' : 'rgb(0,0,0)'
     
     ctx.strokeStyle = 'rgb(35,35,35)'
     ctx.rect(xPos, yPos, tileWidth, tileWidth)
@@ -200,6 +201,14 @@ function flipTile(e) {
  * @returns 
  */
 function determineLiveCell(tileXPos, tileYPos) {
+
+    // automatically set them dead at the edges/corners of map
+    if (tileXPos == 0 || tileXPos == conwayDataArray[0].length-1) {
+        return false;
+    }
+    if (tileYPos == 0 || tileXPos == conwayDataArray.length-1) {
+        return false;
+    }
     // y is row, x is column
     let numberLiveNeighbours = countAliveNeighbours(tileXPos, tileYPos)
     let isAlive = conwayDataArray[tileYPos][tileXPos]
@@ -261,3 +270,6 @@ function initializeConwayData() {
         conwayDataArray.push(newRowArray)
     }
 }
+
+
+// I PLAY SOVA
