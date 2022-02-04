@@ -1,22 +1,27 @@
 'use strict'
 
+const canvasWidth = 1000
+
 document.addEventListener('DOMContentLoaded', setup)
+
 
 //the array which will hold info on the conways game of life
 //first index represents the row (clicked Y) second index represents the column (clicked X)
 let conwayDataArray
 
+//grid variables
 let gridDimensions
-const canvasWidth = 1000
 let tileWidth
 
-//variable id to hold the time interval
+//variable id to hold the time interval, and the speed multiplier of simulation
 let conwayTimeInterval
+let speedMultiplier = 1
 let isrunning = false
 
 function setup() {
     const canvas = document.createElement('canvas')
     const dimensionSlider = document.querySelector('#grid-dimension-slider')
+    const speedSlider = document.querySelector('#speed-slider')
 
     canvas.setAttribute('class', 'conway-grid')
     canvas.setAttribute('height', `1000px`)
@@ -36,10 +41,11 @@ function setup() {
     document.querySelector('#reset').addEventListener('click', reset)
     document.querySelector('#reset').addEventListener('click', () => setEnabledSettings(true))
     dimensionSlider.addEventListener('change', () => document.querySelector('#dimension-setting').textContent = `Set dimensions: ${dimensionSlider.value}x${dimensionSlider.value}`)
-
+    speedSlider.addEventListener('change', () => document.querySelector('#speed-setting').textContent = `Set simulation speed: ${speedSlider.value}x`)
 
     //setting button event listeners
     document.querySelector('#dimension-setting').addEventListener('click', setupGrid)
+    document.querySelector('#speed-setting').addEventListener('click', () => speedMultiplier = speedSlider.value)
     canvas.addEventListener('click', flipTile)
     
 
@@ -72,7 +78,7 @@ function beginTime() {
     if (!conwayTimeInterval) {
         conwayTimeInterval = setInterval(() => {
             determineNextGeneration()
-        }, 200);
+        }, 200 * (1/speedMultiplier));
     } else {
         console.log('already running!')
     }
