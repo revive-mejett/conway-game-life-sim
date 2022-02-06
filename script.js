@@ -1,6 +1,6 @@
 'use strict'
 
-const canvasWidth = 1000
+const canvasWidth = 700
 
 document.addEventListener('DOMContentLoaded', setup)
 
@@ -24,8 +24,8 @@ function setup() {
     const speedSlider = document.querySelector('#speed-slider')
 
     canvas.setAttribute('class', 'conway-grid')
-    canvas.setAttribute('height', `1000px`)
-    canvas.setAttribute('width', `1000px`)
+    canvas.setAttribute('height', `${canvasWidth}px`)
+    canvas.setAttribute('width', `${canvasWidth}px`)
 
     let ctx = canvas.getContext('2d')
     document.querySelector('#conway-grid-section').appendChild(canvas)

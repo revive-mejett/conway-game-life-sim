@@ -1,3 +1,5 @@
+
+
 * {
     font-family: 'Times New Roman', Times, serif;
 }
@@ -24,10 +26,12 @@ p {
 .flex-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
-
+.flex-container > section {
+    margin: 0.5em;
+}
 
 canvas {
     border: 1px solid red;
@@ -56,12 +60,14 @@ canvas {
 }
 
 /*button styles*/
+
+
 button {
     border: 2px dashed white;
     background-color: rgb(53, 76, 128);
     color: rgb(255, 208, 0);
     padding: 0.5em 5em;
-    font-size: 1.5em;
+    font-size: 1em;
 }
 button:hover {
     border-color: rgb(255, 208, 0);
@@ -69,6 +75,10 @@ button:hover {
 
 button:active {
     background-color: rgb(103, 134, 207);
+}
+
+#toolbar button:focus {
+    background-color: rgb(103, 158, 209)
 }
 
 .setting-button {
@@ -84,6 +94,8 @@ button:active {
 .setting-button:disabled:hover {
     border: 2px dashed white;
 }
+
+
 
 /* general input style */
 input {
