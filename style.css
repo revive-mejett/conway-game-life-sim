@@ -18,15 +18,19 @@ h1, h2 {
     color: rgb(255, 208, 0);
 }
 
+/* paragraph styles */
 p {
     color: rgb(188, 145, 212);
     font-size: 120%;
 }
 
+#info-paragraph {
+    text-align: center;
+}
 .flex-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .flex-container > section {
@@ -34,7 +38,7 @@ p {
 }
 
 canvas {
-    border: 1px solid red;
+    border: 4px solid rgb(103, 158, 209);
 }
 
 /*toolbar styles*/
@@ -52,6 +56,12 @@ canvas {
 #setting-panel {
     background-color: rgb(30, 37, 39);
     min-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-color: rgb(103, 158, 209);
+    border-style: solid;
+    border-width: 4px;
 }
 
 #setting-panel > div {

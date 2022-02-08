@@ -42,7 +42,7 @@ function setup() {
     document.querySelector('#stop').addEventListener('click', () => setEnabledSettings(false))
     document.querySelector('#reset').addEventListener('click', reset)
     document.querySelector('#reset').addEventListener('click', () => setEnabledSettings(true))
-    gridSizeSlider.addEventListener('change', () => document.querySelector('#grid-size-setting').textContent = `Set dimensions : ${gridSizeSlider.value} x ${gridSizeSlider.value} pixels`)
+    gridSizeSlider.addEventListener('change', () => document.querySelector('#grid-size-setting').textContent = `Set grid size : ${gridSizeSlider.value} x ${gridSizeSlider.value} pixels`)
     dimensionSlider.addEventListener('change', () => document.querySelector('#dimension-setting').textContent = `Set dimensions: ${dimensionSlider.value} x ${dimensionSlider.value}`)
     speedSlider.addEventListener('change', () => document.querySelector('#speed-setting').textContent = `Set simulation speed: ${speedSlider.value}x`)
 
@@ -62,7 +62,7 @@ function setupGrid() {
     const gridSizeSlider = document.querySelector('#grid-size-slider')
     const canvas = document.querySelector('.conway-grid')
     let ctx = canvas.getContext('2d')
-    
+
     canvasWidth = gridSizeSlider.value
     canvas.setAttribute('height', `${canvasWidth}px`)
     canvas.setAttribute('width', `${canvasWidth}px`)
@@ -178,12 +178,6 @@ function fillCell(xPos, yPos, rowIndex, colIndex) {
     let ctx = canvas.getContext('2d')
     ctx.beginPath()
     
-    //fill the outermost tiles blue as a border to the canvas
-    // if (rowIndex < 3 || colIndex < 3 || rowIndex >= conwayDataArray.length - 3 || colIndex >= conwayDataArray[rowIndex].length - 3) {
-    //     ctx.fillStyle = 'rgb(0,0,50)'
-    // } else {
-    //     ctx.fillStyle = conwayDataArray[rowIndex][colIndex] ? 'rgb(200,200,200)' : 'rgb(0,0,0)'
-    // }
     ctx.fillStyle = conwayDataArray[rowIndex][colIndex] ? 'rgb(200,200,200)' : 'rgb(0,0,0)'
     
     ctx.strokeStyle = 'rgb(35,35,35)'
