@@ -49,8 +49,12 @@ function setup() {
     //setting button event listeners
     document.querySelector('#dimension-setting').addEventListener('click', setupGrid)
     document.querySelector('#grid-size-setting').addEventListener('click', setupGrid)
+    document.querySelector('#speed-setting').addEventListener('click', () => {
+        speedMultiplier = speedSlider.value
+        document.querySelector('#info-paragraph').textContent = `Current speed: ${speedMultiplier}x`
+    })
 
-    document.querySelector('#speed-setting').addEventListener('click', () => speedMultiplier = speedSlider.value)
+    document.querySelector('#info-paragraph').textContent = `Current speed: ${speedMultiplier}x`
     canvas.addEventListener('click', flipTile)
     
 
@@ -73,7 +77,7 @@ function setupGrid() {
     initializeConwayData()
     drawPopulationGrid()
 
-    document.querySelector('#info-paragraph').textContent = `Current speed: ${speedMultiplier}`
+    
 }
 
 /**Enable/disable all setting buttons.
@@ -268,9 +272,7 @@ function countAliveNeighbours(tileXPos, tileYPos) {
                 if (conwayDataArray[i][j]) {
                     numberLiveNeighbours++
                 }
-                
             }
-
         }
     }
     return numberLiveNeighbours;
