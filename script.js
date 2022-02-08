@@ -17,7 +17,7 @@ let tileWidth
 //variable id to hold the time interval, and the speed multiplier of simulation
 let conwayTimeInterval
 let speedMultiplier = 1
-let isrunning = false
+let isRunning = false
 
 function setup() {
     const canvas = document.createElement('canvas')
@@ -72,6 +72,8 @@ function setupGrid() {
     tileWidth = canvasWidth/gridDimensions
     initializeConwayData()
     drawPopulationGrid()
+
+    document.querySelector('#info-paragraph').textContent = `Current speed: ${speedMultiplier}`
 }
 
 /**Enable/disable all setting buttons.
@@ -89,6 +91,7 @@ function setEnabledSettings(setEnabled) {
  * start the generation timeflow
  */
 function beginTime() {
+    isRunning = true
     if (!conwayTimeInterval) {
         conwayTimeInterval = setInterval(() => {
             determineNextGeneration()
@@ -102,6 +105,7 @@ function beginTime() {
  * stops the generation timeflow
  */
 function stopTime() {
+    isRunning = false
     if (conwayTimeInterval) {
         conwayTimeInterval = clearInterval(conwayTimeInterval)
     } else {
@@ -113,6 +117,7 @@ function stopTime() {
  * resets the map, and stops the time if running
  */
 function reset() {
+    isRunning = false
     if (conwayTimeInterval) {
         conwayTimeInterval = clearInterval(conwayTimeInterval)
     }
@@ -187,12 +192,15 @@ function fillCell(xPos, yPos, rowIndex, colIndex) {
 }
 
 /**
- * flips the tile's live/dead state when a tile is clicked
+ * flips the tile's live/dead state when a tile is clicked. Will not flip if the simulator is running
  * @param {*} e -- mouse click event
  */
 
 function flipTile(e) {
 
+    if (isRunning) {
+        return
+    }
     const canvas = document.querySelector('.conway-grid')
     let ctx = canvas.getContext('2d')
 
