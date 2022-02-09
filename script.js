@@ -60,14 +60,17 @@ function setup() {
     //setting button event listeners
     document.querySelector('#dimension-setting').addEventListener('click', () => {
         gridDimensions = dimensionSlider.value
-        tileWidth = canvasWidth/gridDimensions
+        
         setupGrid()
+        initializeConwayData()
+        drawPopulationGrid()
     })
 
     document.querySelector('#grid-size-setting').addEventListener('click', () => {
         canvasWidth = gridSizeSlider.value
-        tileWidth = canvasWidth/gridDimensions
         setupGrid()
+        initializeConwayData()
+        drawPopulationGrid()
     })
 
     document.querySelector('#speed-setting').addEventListener('click', () => {
@@ -84,24 +87,22 @@ function setup() {
 
     canvas.addEventListener('click', flipTile)
     
-
+    initializeConwayData()
+    drawPopulationGrid()
     
 }
 
 function setupGrid() {
-    const gridSizeSlider = document.querySelector('#grid-size-slider')
+    
     const canvas = document.querySelector('.conway-grid')
     let ctx = canvas.getContext('2d')
 
-    // canvasWidth = gridSizeSlider.value
     canvas.setAttribute('height', `${canvasWidth}px`)
     canvas.setAttribute('width', `${canvasWidth}px`)
 
     ctx.clearRect(0,0,canvasWidth,canvasWidth)
-    initializeConwayData()
-    drawPopulationGrid()
 
-    
+    tileWidth = canvasWidth/gridDimensions
 }
 
 /**Enable/disable all setting buttons.
@@ -314,6 +315,17 @@ function initializeConwayData() {
     }
 }
 
+function copyArray(originalArr) {
+    let newArray = []
+    originalArr.forEach(row => {
+        let newRowArray = []
+        row.forEach(cell => {
+            newRowArray.push(cell)
+        })
+        newArray.push(newRowArray)
+    })
+    return newArray
+}
 
 function addToSaved() {
     let gridName = document.querySelector('#grid-name-input').value
@@ -321,7 +333,7 @@ function addToSaved() {
     if (gridName == undefined || gridName.trim() === '') {
         gridName = 'Unnamed grid'
     }
-    const newGrid = new CustomGrid(gridName, conwayDataArray, canvasWidth, gridDimensions)
+    const newGrid = new CustomGrid(gridName, copyArray(conwayDataArray), canvasWidth, gridDimensions)
 
     savedData.set(gridName, newGrid)
 
@@ -333,10 +345,11 @@ function loadGrid() {
     const loadedGrid = savedData.get(gridName)
     console.log(loadedGrid)
 
-    setupGrid()
+    initializeConwayData()
     conwayDataArray = loadedGrid.arrayData
     canvasWidth = loadedGrid.canvasSize
     gridDimensions = loadedGrid.gridDimension
+    setupGrid()
     drawPopulationGrid()
 
 
