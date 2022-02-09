@@ -14,7 +14,7 @@ header h1 {
     font-size: 400%;
 }
 
-h1, h2 {
+h1, h2, footer h3 {
     color: rgb(255, 208, 0);
 }
 
@@ -180,7 +180,7 @@ input {
 }
 
 .save-item h3 {
-    color: rgb(103, 158, 209);
+    color: rgb(255, 208, 0);
 }
 
 .save-load-buttons button {
