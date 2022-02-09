@@ -103,6 +103,7 @@ button:active {
     margin: auto;
 }
 
+
 .save-setting-button {
     width: 150px;
     padding: 0.5em 1em;
@@ -117,11 +118,18 @@ button:active {
 }
 
 
-
-
 /* general input style */
 input {
     margin: 3em 0 3em 0;
+}
+
+#grid-name-input {
+    -webkit-appearance: none;
+    outline: none;
+    border: 1px solid rgb(103, 158, 209);
+    background-color: black;
+    color: rgb(255, 208, 0);
+    font-size: 1em;
 }
 /* input slider styles */
 .input-slider {
@@ -155,3 +163,28 @@ input {
     border: 1px solid white;
     cursor:not-allowed;
 }
+
+/* saved item list styles */
+/* #saved-list {
+    margin: 0;
+} */
+.save-item {
+    background-color: rgb(74, 86, 114);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.25em;
+    margin: 0.25em 0;
+}
+
+.save-item h3 {
+    color: rgb(103, 158, 209);
+}
+
+.remove-item {
+    width: 100px;
+    padding: 4px 0;
+    color: rgb(255, 115, 115);
+    background-color: rgb(105, 31, 31);
+}
+

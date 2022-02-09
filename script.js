@@ -20,15 +20,6 @@ let conwayTimeInterval
 let speedMultiplier = 1
 let isRunning = false
 
-class CustomGrid {
-    constructor(gridName, arrayData, canvasSize, gridDimension) {
-        this.gridName = gridName
-        this.arrayData = arrayData
-        this.canvasSize = canvasSize
-        this.gridDimension = gridDimension
-    }
-}
-
 function setup() {
     savedData = new Map()
     const canvas = document.createElement('canvas')
@@ -89,6 +80,7 @@ function setup() {
     
     initializeConwayData()
     drawPopulationGrid()
+    addSaveItemToDOM()
     
 }
 
@@ -333,9 +325,18 @@ function addToSaved() {
     if (gridName == undefined || gridName.trim() === '') {
         gridName = 'Unnamed grid'
     }
-    const newGrid = new CustomGrid(gridName, copyArray(conwayDataArray), canvasWidth, gridDimensions)
 
+    const newGrid = {
+        name : gridName,
+        arrayData : copyArray(conwayDataArray),
+        width : canvasWidth,
+        dimension : gridDimensions
+    }
+
+    // const newGrid = new CustomGrid(gridName, copyArray(conwayDataArray), canvasWidth, gridDimensions)
     savedData.set(gridName, newGrid)
+
+    addSaveItemToDOM(newGrid)
 
 }
 
@@ -345,12 +346,38 @@ function loadGrid() {
     const loadedGrid = savedData.get(gridName)
     console.log(loadedGrid)
 
-    initializeConwayData()
-    conwayDataArray = loadedGrid.arrayData
-    canvasWidth = loadedGrid.canvasSize
-    gridDimensions = loadedGrid.gridDimension
+
+    conwayDataArray = copyArray(loadedGrid.arrayData)
+    canvasWidth = loadedGrid.width
+    gridDimensions = loadedGrid.dimension
     setupGrid()
     drawPopulationGrid()
 
+
+}
+
+
+
+//SAVED BUTTON LIST FUNCTIONS
+
+function addSaveItemToDOM(savedItem) {
+    const savedList = document.querySelector('#saved-list')
+    const newSaveItem = document.createElement('div')
+    const infoHeader = document.createElement('h3')
+    const deleteButton = document.createElement('button')
+    // <div class="save-item">
+    //                         <h3>placeholder - 100px size, 20x20 tiles</h3>
+    //                         <button class="remove-item">Trash</button>
+    //                     </div>
+    
+
+    newSaveItem.setAttribute('class', 'save-item')
+    deleteButton.setAttribute('class', 'remove-item')
+    infoHeader.textContent = `${savedItem.name} / ${savedItem.width}px / ${savedItem.dimension}x${savedItem.dimension}`
+    deleteButton.textContent = 'Trash'
+    newSaveItem.appendChild(infoHeader)
+    newSaveItem.appendChild(deleteButton)
+    savedList.appendChild(newSaveItem)
+    
 
 }
