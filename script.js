@@ -71,7 +71,11 @@ function setup() {
     
     //save setting event listeners
     document.querySelector('#save-grid').addEventListener('click', addToSaved)
-    document.querySelector('#load-grid').addEventListener('click', loadGrid)
+    // document.querySelector('#load-grid').addEventListener('click', () => {
+    //     let gridName = document.querySelector('#grid-name-input').value
+    //     const savedGrid = savedData.get(gridName)
+    //     loadGrid(savedGrid)
+    // })
 
 
     document.querySelector('#info-paragraph').textContent = `Current speed: ${speedMultiplier}x`
@@ -80,7 +84,6 @@ function setup() {
     
     initializeConwayData()
     drawPopulationGrid()
-    addSaveItemToDOM()
     
 }
 
@@ -103,8 +106,10 @@ function setupGrid() {
  */
 function setEnabledSettings(setEnabled) {
     const settingButtons = document.querySelectorAll('.setting-button')
+    const loadButtons = document.querySelectorAll('.load-item')
     const sliders = document.querySelectorAll('.input-slider')
     settingButtons.forEach(button => button.disabled = setEnabled ? false : true)
+    loadButtons.forEach(button => button.disabled = setEnabled ? false : true)
     sliders.forEach(button => button.disabled = setEnabled ? false : true)
 }
 
@@ -320,11 +325,27 @@ function copyArray(originalArr) {
 }
 
 function addToSaved() {
+    const allSavedItems = Array.from(document.querySelectorAll('.save-item'))
+
     let gridName = document.querySelector('#grid-name-input').value
 
+    const alreadyExists = allSavedItems.find(item => item.id === gridName)
+
     if (gridName == undefined || gridName.trim() === '') {
-        gridName = 'Unnamed grid'
+        alert('Add a name to save!')
+        return
     }
+
+    //do not save it an existing name already exists
+    if (alreadyExists) {
+ 
+        alert('Name already exists!')
+        return
+    }
+
+
+
+    
 
     const newGrid = {
         name : gridName,
@@ -340,26 +361,14 @@ function addToSaved() {
 
 }
 
-function loadGrid() {
+function loadGrid(saveItem) {
 
-    let gridName = document.querySelector('#grid-name-input').value
-    const loadedGrid = savedData.get(gridName)
-    console.log(loadedGrid)
-
-
-    conwayDataArray = copyArray(loadedGrid.arrayData)
-    canvasWidth = loadedGrid.width
-    gridDimensions = loadedGrid.dimension
+    
+    conwayDataArray = copyArray(saveItem.arrayData)
+    canvasWidth = saveItem.width
+    gridDimensions = saveItem.dimension
     setupGrid()
     drawPopulationGrid()
-
-
-}
-
-function loadGridButton(e) {
-
-    const divItem = e.target.parentNode.parentNode
-    console.log(savedData.get(divItem.id))
 
 
 }
@@ -390,5 +399,14 @@ function addSaveItemToDOM(savedItem) {
     newSaveItem.appendChild(buttonsDiv)
     savedList.appendChild(newSaveItem)
     
-    loadButton.addEventListener('click', loadGridButton)
+    loadButton.addEventListener('click', (e) => {
+        const divItem = e.target.parentNode.parentNode
+        loadGrid(savedData.get(divItem.id))
+    })
+
+    deleteButton.addEventListener('click', (e) => {
+        const divItem = e.target.parentNode.parentNode
+        savedData.delete(divItem.id)
+        divItem.remove()
+    })
 }
