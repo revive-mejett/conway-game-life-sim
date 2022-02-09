@@ -8,9 +8,11 @@ document.addEventListener('DOMContentLoaded', setup)
 //the array which will hold info on the conways game of life
 //first index represents the row (clicked Y) second index represents the column (clicked X)
 let conwayDataArray
-let savedData
 
-//local storage var
+//saved data variables
+let savedData //Map where the key is the name of the saved grid.
+const maxSavedGrids = 20 // # of saved cannot exceed this.
+
 
 
 //grid variables
@@ -79,6 +81,8 @@ function setup() {
     
     //save setting event listeners
     document.querySelector('#save-grid').addEventListener('click', addToSaved)
+
+    //IF YOU WANT TO IMPLEMENT GRID, UNCOMMENT
     // document.querySelector('#load-grid').addEventListener('click', () => {
     //     let gridName = document.querySelector('#grid-name-input').value
     //     const savedGrid = savedData.get(gridName)
@@ -95,6 +99,9 @@ function setup() {
     
 }
 
+/**
+ * Sets up the grid, setting the grid's width/height atribute, clearing old grid and changing tileWidth as it depends on dimensions and width of canvas
+ */
 function setupGrid() {
     
     const canvas = document.querySelector('.conway-grid')
@@ -320,6 +327,11 @@ function initializeConwayData() {
     }
 }
 
+/**Copies an array of conway data to prevent aliasing
+ * 
+ * @param {Array} originalArr 
+ * @returns {Array} -- a duplicate copy of the original array
+ */
 function copyArray(originalArr) {
     let newArray = []
     originalArr.forEach(row => {
@@ -332,7 +344,16 @@ function copyArray(originalArr) {
     return newArray
 }
 
+/**Adds a new JSON object containing current grid variables to the savedData Map after data validation
+ * Input name cannot contain only spaces or be empty. Max grids saved cannot exceed maxSavedGrids (see global vars)
+ * @returns 
+ */
 function addToSaved() {
+
+    if (savedData.size >= maxSavedGrids) {
+        alert('Maximum saved grids exceeded.')
+        return
+    }
     const allSavedItems = Array.from(document.querySelectorAll('.save-item'))
 
     let gridName = document.querySelector('#grid-name-input').value
@@ -369,20 +390,25 @@ function addToSaved() {
     updateLocalStorage()
 }
 
+/**Sets the global grid variables to the values of a saved grid data, and sets / draws the grid
+ * 
+ * @param {Object} saveItem - the object containing data of a saved grid. 
+ */
 function loadGrid(saveItem) {
-
-    
     conwayDataArray = copyArray(saveItem.arrayData)
     canvasWidth = saveItem.width
     gridDimensions = saveItem.dimension
     setupGrid()
     drawPopulationGrid()
 
-
 }
 
 //SAVED BUTTON LIST FUNCTIONS
 
+/**Appends to the list of saved items displayed in the DOM Sets two buttons (load / trash) to load / delete the corresponding data
+ * 
+ * @param {Object} savedItem -- the object containing the saved data
+ */
 function addSaveItemToDOM(savedItem) {
     const savedList = document.querySelector('#saved-list')
     const newSaveItem = document.createElement('div')
@@ -423,7 +449,7 @@ function addSaveItemToDOM(savedItem) {
 
 //storage functions
 
-/**
+/**Updates the current Map (the savedData) to local storage
  * 
  */
 function updateLocalStorage() {
@@ -431,6 +457,9 @@ function updateLocalStorage() {
     localStorage.setItem('savedGrids', JSON.stringify(saveItemArray))
 }
 
+/**
+ * Load from localStorage, extracting the array of objects containign saved data and set into the map. Called when loading page.
+ */
 function loadFromLocalStorage() {
     const loadedArray = JSON.parse(localStorage.getItem('savedGrids'))
 
