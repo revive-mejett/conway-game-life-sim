@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', setup)
 let conwayDataArray
 let savedData
 
+//local storage var
+
+
 //grid variables
 let canvasWidth = 700
 let gridDimensions = 20
@@ -20,8 +23,13 @@ let conwayTimeInterval
 let speedMultiplier = 1
 let isRunning = false
 
+
 function setup() {
     savedData = new Map()
+
+    if (localStorage.getItem('savedGrids') != undefined) {
+        loadFromLocalStorage()
+    }
     const canvas = document.createElement('canvas')
     const gridSizeSlider = document.querySelector('#grid-size-slider')
     const dimensionSlider = document.querySelector('#grid-dimension-slider')
@@ -331,6 +339,7 @@ function addToSaved() {
 
     const alreadyExists = allSavedItems.find(item => item.id === gridName)
 
+    //if empty name or spaces provided, tell user to name it.
     if (gridName == undefined || gridName.trim() === '') {
         alert('Add a name to save!')
         return
@@ -354,11 +363,10 @@ function addToSaved() {
         dimension : gridDimensions
     }
 
-    // const newGrid = new CustomGrid(gridName, copyArray(conwayDataArray), canvasWidth, gridDimensions)
     savedData.set(gridName, newGrid)
 
     addSaveItemToDOM(newGrid)
-
+    updateLocalStorage()
 }
 
 function loadGrid(saveItem) {
@@ -402,11 +410,32 @@ function addSaveItemToDOM(savedItem) {
     loadButton.addEventListener('click', (e) => {
         const divItem = e.target.parentNode.parentNode
         loadGrid(savedData.get(divItem.id))
+        updateLocalStorage()
     })
 
     deleteButton.addEventListener('click', (e) => {
         const divItem = e.target.parentNode.parentNode
         savedData.delete(divItem.id)
         divItem.remove()
+        updateLocalStorage()
+    })
+}
+
+//storage functions
+
+/**
+ * 
+ */
+function updateLocalStorage() {
+    const saveItemArray = Array.from(savedData.values())
+    localStorage.setItem('savedGrids', JSON.stringify(saveItemArray))
+}
+
+function loadFromLocalStorage() {
+    const loadedArray = JSON.parse(localStorage.getItem('savedGrids'))
+
+    loadedArray.forEach(grid => {
+        savedData.set(grid.name, grid)
+        addSaveItemToDOM(grid)
     })
 }
