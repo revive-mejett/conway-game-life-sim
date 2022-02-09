@@ -52,9 +52,9 @@
                 </div>
 
                 <p id="info-paragraph">Press Start to begin the generation flow!</p>
-                <div hidden>
+                <div>
                     <div id="saveload-toolbar">
-                        <input id="grid-name-input" type="text" placeholder="Enter pattern name" required>
+                        <input id="grid-name-input" type="text" maxlength="24" placeholder="Enter pattern name" required>
                         <button id="save-grid" class="setting-button save-setting-button">
                             Save
                         </button>
@@ -69,7 +69,11 @@
                         </div>
                         <div class="save-item">
                             <h3>placeholder - 100px size, 20x20 tiles</h3>
-                            <button class="remove-item">Trash</button>
+                            <div class="save-load-buttons">
+                                <button class="remove-item">Trash</button>
+                                <button class="remove-item">Trash</button>
+                            </div>
+                            
                         </div>
                         <div class="save-item">
                             <h3>placeholder - 100px size, 20x20 tiles</h3>

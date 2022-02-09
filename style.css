@@ -181,10 +181,18 @@ input {
     color: rgb(103, 158, 209);
 }
 
-.remove-item {
+.save-load-buttons button {
     width: 100px;
     padding: 4px 0;
+    margin: 0 2px;
+}
+.remove-item {
     color: rgb(255, 115, 115);
     background-color: rgb(105, 31, 31);
+}
+
+.load-item {
+    color: rgb(115, 255, 150);
+    background-color: rgb(43, 105, 31);
 }
 

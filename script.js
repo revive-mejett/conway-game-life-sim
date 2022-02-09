@@ -321,7 +321,7 @@ function copyArray(originalArr) {
 
 function addToSaved() {
     let gridName = document.querySelector('#grid-name-input').value
-    console.log(gridName);
+
     if (gridName == undefined || gridName.trim() === '') {
         gridName = 'Unnamed grid'
     }
@@ -356,28 +356,39 @@ function loadGrid() {
 
 }
 
+function loadGridButton(e) {
 
+    const divItem = e.target.parentNode.parentNode
+    console.log(savedData.get(divItem.id))
+
+
+}
 
 //SAVED BUTTON LIST FUNCTIONS
 
 function addSaveItemToDOM(savedItem) {
     const savedList = document.querySelector('#saved-list')
     const newSaveItem = document.createElement('div')
+    const buttonsDiv = document.createElement('div')
     const infoHeader = document.createElement('h3')
     const deleteButton = document.createElement('button')
-    // <div class="save-item">
-    //                         <h3>placeholder - 100px size, 20x20 tiles</h3>
-    //                         <button class="remove-item">Trash</button>
-    //                     </div>
-    
+    const loadButton = document.createElement('button')
+  
 
     newSaveItem.setAttribute('class', 'save-item')
+    newSaveItem.setAttribute('id', `${savedItem.name}`)
+    buttonsDiv.setAttribute('class', 'save-load-buttons')
     deleteButton.setAttribute('class', 'remove-item')
+    loadButton.setAttribute('class', 'load-item')
     infoHeader.textContent = `${savedItem.name} / ${savedItem.width}px / ${savedItem.dimension}x${savedItem.dimension}`
+    loadButton.textContent = 'Load'
     deleteButton.textContent = 'Trash'
+
     newSaveItem.appendChild(infoHeader)
-    newSaveItem.appendChild(deleteButton)
+    buttonsDiv.appendChild(loadButton)
+    buttonsDiv.appendChild(deleteButton)
+    newSaveItem.appendChild(buttonsDiv)
     savedList.appendChild(newSaveItem)
     
-
+    loadButton.addEventListener('click', loadGridButton)
 }
