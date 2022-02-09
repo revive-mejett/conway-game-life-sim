@@ -21,7 +21,8 @@ let speedMultiplier = 1
 let isRunning = false
 
 class CustomGrid {
-    constructor(arrayData,canvasSize, gridDimension) {
+    constructor(gridName, arrayData, canvasSize, gridDimension) {
+        this.gridName = gridName
         this.arrayData = arrayData
         this.canvasSize = canvasSize
         this.gridDimension = gridDimension
@@ -113,8 +114,6 @@ function beginTime() {
         conwayTimeInterval = setInterval(() => {
             determineNextGeneration()
         }, 200 * (1/speedMultiplier));
-    } else {
-        console.log('already running!')
     }
 }
 
@@ -125,8 +124,6 @@ function stopTime() {
     isRunning = false
     if (conwayTimeInterval) {
         conwayTimeInterval = clearInterval(conwayTimeInterval)
-    } else {
-        console.log('not running!')
     }
 }
 
@@ -309,5 +306,14 @@ function initializeConwayData() {
 
 
 function addToSaved() {
-    
+    let gridName = document.querySelector('#grid-name-input').value
+    if (gridName === gridName.trim()) {
+        gridName = 'Unnamed grid'
+    }
+    const newGrid = new CustomGrid(gridName, conwayDataArray, canvasWidth, gridDimensions)
+    console.log(newGrid.arrayData)
+    console.log(newGrid.canvasSize)
+    console.log(newGrid.gridDimension)
+    savedData.set(gridName, newGrid)
+    console.log(savedData)
 }
