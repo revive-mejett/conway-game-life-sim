@@ -12,8 +12,8 @@ let savedData
 
 //grid variables
 let canvasWidth = 700
-let gridDimensions
-let tileWidth
+let gridDimensions = 20
+let tileWidth = canvasWidth/gridDimensions
 
 //variable id to hold the time interval, and the speed multiplier of simulation
 let conwayTimeInterval
@@ -58,8 +58,18 @@ function setup() {
     speedSlider.addEventListener('change', () => document.querySelector('#speed-setting').textContent = `Set simulation speed: ${speedSlider.value}x`)
 
     //setting button event listeners
-    document.querySelector('#dimension-setting').addEventListener('click', setupGrid)
-    document.querySelector('#grid-size-setting').addEventListener('click', setupGrid)
+    document.querySelector('#dimension-setting').addEventListener('click', () => {
+        gridDimensions = dimensionSlider.value
+        tileWidth = canvasWidth/gridDimensions
+        setupGrid()
+    })
+
+    document.querySelector('#grid-size-setting').addEventListener('click', () => {
+        canvasWidth = gridSizeSlider.value
+        tileWidth = canvasWidth/gridDimensions
+        setupGrid()
+    })
+
     document.querySelector('#speed-setting').addEventListener('click', () => {
         speedMultiplier = speedSlider.value
         document.querySelector('#info-paragraph').textContent = `Current speed: ${speedMultiplier}x`
@@ -67,6 +77,9 @@ function setup() {
     
     //save setting event listeners
     document.querySelector('#save-grid').addEventListener('click', addToSaved)
+    document.querySelector('#load-grid').addEventListener('click', loadGrid)
+
+
     document.querySelector('#info-paragraph').textContent = `Current speed: ${speedMultiplier}x`
 
     canvas.addEventListener('click', flipTile)
@@ -76,18 +89,15 @@ function setup() {
 }
 
 function setupGrid() {
-    const dimensionSlider = document.querySelector('#grid-dimension-slider')
     const gridSizeSlider = document.querySelector('#grid-size-slider')
     const canvas = document.querySelector('.conway-grid')
     let ctx = canvas.getContext('2d')
 
-    canvasWidth = gridSizeSlider.value
+    // canvasWidth = gridSizeSlider.value
     canvas.setAttribute('height', `${canvasWidth}px`)
     canvas.setAttribute('width', `${canvasWidth}px`)
 
     ctx.clearRect(0,0,canvasWidth,canvasWidth)
-    gridDimensions = dimensionSlider.value
-    tileWidth = canvasWidth/gridDimensions
     initializeConwayData()
     drawPopulationGrid()
 
@@ -307,13 +317,27 @@ function initializeConwayData() {
 
 function addToSaved() {
     let gridName = document.querySelector('#grid-name-input').value
-    if (gridName === gridName.trim()) {
+    console.log(gridName);
+    if (gridName == undefined || gridName.trim() === '') {
         gridName = 'Unnamed grid'
     }
     const newGrid = new CustomGrid(gridName, conwayDataArray, canvasWidth, gridDimensions)
-    console.log(newGrid.arrayData)
-    console.log(newGrid.canvasSize)
-    console.log(newGrid.gridDimension)
+
     savedData.set(gridName, newGrid)
-    console.log(savedData)
+
+}
+
+function loadGrid() {
+
+    let gridName = document.querySelector('#grid-name-input').value
+    const loadedGrid = savedData.get(gridName)
+    console.log(loadedGrid)
+
+    setupGrid()
+    conwayDataArray = loadedGrid.arrayData
+    canvasWidth = loadedGrid.canvasSize
+    gridDimensions = loadedGrid.gridDimension
+    drawPopulationGrid()
+
+
 }
