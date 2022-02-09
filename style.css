@@ -52,6 +52,9 @@ canvas {
     border-width: 5px 0 5px 0;
 }
 
+#saveload-toolbar {
+    display: flex;
+}
 /* setting panel styles */
 #setting-panel {
     background-color: rgb(30, 37, 39);
@@ -79,6 +82,9 @@ button {
     padding: 0.5em 5em;
     font-size: 1em;
 }
+
+
+
 button:hover {
     border-color: rgb(255, 208, 0);
 }
@@ -97,6 +103,11 @@ button:active {
     margin: auto;
 }
 
+.save-setting-button {
+    width: 150px;
+    padding: 0.5em 1em;
+}
+
 .setting-button:disabled{
     background-color: rgb(71, 71, 71);
     color: rgb(173, 173, 173);
@@ -104,6 +115,7 @@ button:active {
 .setting-button:disabled:hover {
     border: 2px dashed white;
 }
+
 
 
 

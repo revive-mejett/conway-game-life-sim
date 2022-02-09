@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', setup)
 //the array which will hold info on the conways game of life
 //first index represents the row (clicked Y) second index represents the column (clicked X)
 let conwayDataArray
+let savedData
 
 //grid variables
 let canvasWidth = 700
@@ -19,7 +20,16 @@ let conwayTimeInterval
 let speedMultiplier = 1
 let isRunning = false
 
+class CustomGrid {
+    constructor(arrayData,canvasSize, gridDimension) {
+        this.arrayData = arrayData
+        this.canvasSize = canvasSize
+        this.gridDimension = gridDimension
+    }
+}
+
 function setup() {
+    savedData = new Map()
     const canvas = document.createElement('canvas')
     const gridSizeSlider = document.querySelector('#grid-size-slider')
     const dimensionSlider = document.querySelector('#grid-dimension-slider')
@@ -53,8 +63,11 @@ function setup() {
         speedMultiplier = speedSlider.value
         document.querySelector('#info-paragraph').textContent = `Current speed: ${speedMultiplier}x`
     })
-
+    
+    //save setting event listeners
+    document.querySelector('#save-grid').addEventListener('click', addToSaved)
     document.querySelector('#info-paragraph').textContent = `Current speed: ${speedMultiplier}x`
+
     canvas.addEventListener('click', flipTile)
     
 
@@ -295,4 +308,6 @@ function initializeConwayData() {
 }
 
 
-// I PLAY SOVA
+function addToSaved() {
+    
+}
